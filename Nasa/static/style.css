@@ -1,0 +1,340 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background: #f1f7f1;
+    color: #263b2a;
+}
+
+/* HEADER */
+
+header {
+    background: #176b38;
+    color: white;
+    text-align: center;
+    padding: 30px 15px;
+}
+
+header h1 {
+    font-size: 32px;
+    margin-bottom: 10px;
+}
+
+/* MAIN */
+
+main {
+    max-width: 850px;
+    margin: 30px auto;
+    padding: 15px;
+}
+
+.welcome {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.welcome h2 {
+    color: #176b38;
+    margin-bottom: 12px;
+}
+
+.welcome p {
+    line-height: 1.6;
+    color: #657568;
+}
+
+/* CARDS */
+
+.card {
+    background: white;
+    padding: 25px;
+    margin-bottom: 22px;
+    border-radius: 12px;
+    box-shadow: 0 3px 12px rgba(0,0,0,0.07);
+}
+
+.card h2 {
+    color: #176b38;
+    margin-bottom: 18px;
+}
+
+.card h3 {
+    margin: 22px 0 12px;
+    color: #315d3d;
+}
+
+/* INPUTS */
+
+label {
+    display: block;
+    font-weight: bold;
+    margin-top: 18px;
+    margin-bottom: 8px;
+}
+
+input[type="text"],
+input[type="number"],
+select {
+    width: 100%;
+    padding: 13px;
+    border: 1px solid #cbd8cc;
+    border-radius: 7px;
+    font-size: 15px;
+    outline: none;
+    background: white;
+}
+
+input:focus,
+select:focus {
+    border-color: #238b45;
+}
+
+/* LOCATION */
+
+.location-info {
+    display: flex;
+    gap: 30px;
+    flex-wrap: wrap;
+    margin-top: 20px;
+}
+
+#locationStatus {
+    margin-top: 15px;
+    color: #657568;
+}
+
+button {
+    background: #238b45;
+    color: white;
+    padding: 14px 22px;
+    border: none;
+    border-radius: 7px;
+    cursor: pointer;
+    font-size: 15px;
+    margin-top: 15px;
+}
+
+button:hover {
+    background: #125d2d;
+}
+
+button:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+/* CHECKBOXES */
+
+.checkbox-group {
+    margin-top: 15px;
+}
+
+.checkbox-group label {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px;
+    margin-top: 5px;
+    background: #f1f8f1;
+    border-radius: 7px;
+    cursor: pointer;
+}
+
+.checkbox-group input {
+    width: 18px;
+    height: 18px;
+    accent-color: #238b45;
+}
+
+/* OTHER */
+
+.hint {
+    color: #777;
+    font-size: 13px;
+    line-height: 1.5;
+}
+
+#submitBtn {
+    width: 100%;
+    background: #176b38;
+    font-size: 17px;
+    font-weight: bold;
+    padding: 17px;
+}
+
+#message {
+    text-align: center;
+    margin: 20px 0;
+    font-weight: bold;
+}
+
+#result {
+    white-space: pre-wrap;
+    overflow-wrap: anywhere;
+    background: #eaf5eb;
+    padding: 15px;
+    border-radius: 8px;
+}
+
+/* FOOTER */
+
+footer {
+    background: #176b38;
+    color: white;
+    text-align: center;
+    padding: 20px;
+}
+
+/* MOBILE */
+
+@media (max-width: 600px) {
+
+    header h1 {
+        font-size: 25px;
+    }
+
+    .card {
+        padding: 18px;
+    }
+
+    .location-info {
+        flex-direction: column;
+        gap: 10px;
+    }
+
+}
+/* =====================================
+   FARMShift AI RECOMMENDATION DASHBOARD
+===================================== */
+
+.crop-result {
+
+    text-align: center;
+
+    padding: 25px;
+
+    margin-top: 20px;
+
+    background: #e8f5e9;
+
+    border-radius: 12px;
+
+}
+
+.crop-result h1 {
+
+    font-size: 36px;
+
+    color: #1b7a36;
+
+    text-transform: capitalize;
+
+}
+
+
+.dashboard-grid {
+
+    display: grid;
+
+    grid-template-columns: repeat(2, 1fr);
+
+    gap: 15px;
+
+    margin-top: 20px;
+
+}
+
+
+.dashboard-grid div {
+
+    background: #f1f8f2;
+
+    padding: 15px;
+
+    border-radius: 10px;
+
+    text-align: center;
+
+}
+
+
+.dashboard-grid h3 {
+
+    font-size: 15px;
+
+    color: #444;
+
+}
+
+
+.dashboard-grid p {
+
+    font-size: 20px;
+
+    font-weight: bold;
+
+    color: #207a38;
+
+}
+
+
+#aiExplanation {
+
+    line-height: 1.7;
+
+    font-size: 16px;
+
+}
+
+
+@media (max-width: 600px) {
+
+    .dashboard-grid {
+
+        grid-template-columns: 1fr 1fr;
+
+    }
+
+}
+
+/* =====================================
+   CROP ROTATION DASHBOARD
+===================================== */
+
+#rotationSection {
+
+    margin-top: 20px;
+
+}
+
+#rotationSection h3 {
+
+    color: #267a3b;
+
+    margin-top: 20px;
+
+}
+
+#rotationInsights {
+
+    padding-left: 25px;
+
+    line-height: 1.8;
+
+}
+
+#rotationInsights li {
+
+    margin-bottom: 10px;
+
+    background: #f1f8f2;
+
+    padding: 12px;
+
+    border-radius: 8px;
+
+}
