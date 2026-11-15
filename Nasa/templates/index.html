@@ -1,0 +1,557 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>FarmShift AI</title>
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+
+<body>
+
+    <header>
+        <h1>🌱 FarmShift AI</h1>
+        <p>Climate-Smart Crop Rotation Decision Support</p>
+    </header>
+
+    <main>
+
+        <section class="welcome">
+            <h2>Welcome to FarmShift AI</h2>
+
+            <p>
+                Make smarter farming decisions using NASA
+                Earth observations and local soil information.
+            </p>
+        </section>
+
+
+        <form id="farmerForm">
+
+            <!-- LOCATION -->
+
+            <section class="card">
+
+                <h2>📍 Farm Location</h2>
+
+                <p>Detect your farmland location using GPS.</p>
+
+                <button type="button" id="locationBtn">
+                    Detect My Location
+                </button>
+
+                <p id="locationStatus">
+                    Location not detected
+                </p>
+
+                <div class="location-info">
+
+                    <p>
+                        Latitude:
+                        <span id="latitude">--</span>
+                    </p>
+
+                    <p>
+                        Longitude:
+                        <span id="longitude">--</span>
+                    </p>
+
+                </div>
+
+            </section>
+
+
+            <!-- LAND INFORMATION -->
+
+            <section class="card">
+
+                <h2>🌾 Farmland Information</h2>
+
+                <label>Land Area (Acres)</label>
+
+                <input
+                    type="number"
+                    id="landArea"
+                    min="0.01"
+                    step="0.01"
+                    placeholder="Example: 2"
+                    required
+                >
+
+                <label>Soil Type</label>
+
+                <select id="soilType" required>
+
+                    <option value="">Select Soil Type</option>
+
+                    <option value="Sandy">Sandy</option>
+                    <option value="Clay">Clay</option>
+                    <option value="Silty">Silty</option>
+                    <option value="Loamy">Loamy</option>
+                    <option value="Clay Loam">Clay Loam</option>
+                    <option value="Sandy Loam">Sandy Loam</option>
+                    <option value="Don't know">Don't know</option>
+
+                </select>
+
+            </section>
+<!-- SOIL INFORMATION -->
+
+<section class="card">
+
+    <h2>🧪 Soil Information</h2>
+
+    <p>Choose how you want to provide your soil information.</p>
+
+    <!-- SOIL INPUT OPTIONS -->
+
+    <div class="soil-options">
+
+        <label>
+            <input type="radio" name="soilMethod"
+                   value="manual" checked>
+            Manual Soil Data Entry
+        </label>
+
+        <label>
+            <input type="radio" name="soilMethod"
+                   value="upload">
+            Upload Soil Health Card
+        </label>
+
+    </div>
+
+
+    <!-- MANUAL ENTRY -->
+
+    <div id="manualSoilSection">
+
+        <h3>Enter Soil Nutrient Values</h3>
+
+        <label>Nitrogen (N)</label>
+
+        <input type="number" id="nitrogen"
+               placeholder="Example: 90" min="0" step="any">
+
+        <label>Phosphorus (P)</label>
+
+        <input type="number" id="phosphorus"
+               placeholder="Example: 42" min="0" step="any">
+
+        <label>Potassium (K)</label>
+
+        <input type="number" id="potassium"
+               placeholder="Example: 43" min="0" step="any">
+
+        <label>Soil pH</label>
+
+        <input type="number" id="soilPH"
+               placeholder="Example: 6.5"
+               min="0" max="14" step="0.1">
+
+    </div>
+
+
+    <!-- SOIL HEALTH CARD UPLOAD -->
+
+    <div id="soilUploadSection" style="display: none;">
+
+        <h3>Upload Soil Health Card</h3>
+
+        <p class="hint">
+            Upload a clear photograph or scanned copy of your
+            Soil Health Card.
+        </p>
+
+        <input
+            type="file"
+            id="soilCardImage"
+            accept="image/*"
+        >
+        <!-- Image Preview -->
+
+<div id="soilImagePreview" style="display: none;">
+
+    <h3>Uploaded Soil Health Card</h3>
+
+    <img
+        id="previewImage"
+        src=""
+        alt="Soil Health Card Preview"
+        style="max-width: 100%; max-height: 300px;"
+    >
+
+</div>
+
+        <button type="button" id="extractSoilBtn">
+            Extract Soil Details
+        </button>
+
+        <p id="ocrStatus"></p>
+
+        <h3>Extracted Soil Information</h3>
+
+        <label>Nitrogen (N)</label>
+
+        <input type="number" id="extractedNitrogen"
+               min="0" step="any">
+
+        <label>Phosphorus (P)</label>
+
+        <input type="number" id="extractedPhosphorus"
+               min="0" step="any">
+
+        <label>Potassium (K)</label>
+
+        <input type="number" id="extractedPotassium"
+               min="0" step="any">
+
+        <label>Soil pH</label>
+
+        <input type="number" id="extractedPH"
+               min="0" max="14" step="0.1">
+
+        <p class="hint">
+            Please verify the extracted values and correct
+            them if necessary before submitting.
+        </p>
+
+    </div>
+
+</section>
+
+            <!-- CROP INFORMATION -->
+
+            <section class="card">
+
+                <h2>🌱 Crop Information</h2>
+
+                <label>Currently Cultivating Crop</label>
+
+                <input
+                    type="text"
+                    id="currentCrop"
+                    placeholder="Example: Rice"
+                    required
+                >
+
+                <h3>Previous Three Seasons' Crops</h3>
+
+                <p class="hint">
+                    Enter crops cultivated during previous seasons.
+                    Leave a field empty if you don't know.
+                </p>
+
+                <label>Previous Season 1</label>
+
+                <input
+                    type="text"
+                    id="previousCrop1"
+                    placeholder="Example: Rice"
+                >
+
+                <label>Previous Season 2</label>
+
+                <input
+                    type="text"
+                    id="previousCrop2"
+                    placeholder="Example: Maize"
+                >
+
+                <label>Previous Season 3</label>
+
+                <input
+                    type="text"
+                    id="previousCrop3"
+                    placeholder="Example: Groundnut"
+                >
+
+            </section>
+
+
+            <!-- WATER INFORMATION -->
+
+            <section class="card">
+
+                <h2>💧 Water Availability</h2>
+
+                <select id="waterAvailability" required>
+
+                    <option value="">Select Water Availability</option>
+
+                    <option value="Rainfed">
+                        Rainfed (Only Rainfall)
+                    </option>
+
+                    <option value="Limited Irrigation">
+                        Limited Irrigation
+                    </option>
+
+                    <option value="Moderate Irrigation">
+                        Moderate Irrigation
+                    </option>
+
+                    <option value="Good Irrigation">
+                        Good Irrigation
+                    </option>
+
+                </select>
+
+            </section>
+
+
+            <!-- FARMING SEASON -->
+
+            <section class="card">
+
+                <h2>🌦️ Farming Season</h2>
+
+                <select id="season" required>
+
+                    <option value="">Select Farming Season</option>
+
+                    <option value="Kharif">Kharif</option>
+
+                    <option value="Rabi">Rabi</option>
+
+                    <option value="Zaid">Zaid</option>
+
+                    <option value="Year-round">Year-round</option>
+
+                    <option value="Not sure">Not sure</option>
+
+                </select>
+
+            </section>
+
+
+            <!-- FARMER PRIORITIES -->
+
+            <section class="card">
+
+                <h2>🎯 Your Farming Priorities</h2>
+
+                <p>Select what matters most to you.</p>
+
+                <div class="checkbox-group">
+
+                    <label>
+                        <input type="checkbox" name="priority"
+                               value="Improve Soil Health">
+                        Improve Soil Health
+                    </label>
+
+                    <label>
+                        <input type="checkbox" name="priority"
+                               value="Save Water">
+                        Save Water
+                    </label>
+
+                    <label>
+                        <input type="checkbox" name="priority"
+                               value="Increase Crop Yield">
+                        Increase Crop Yield
+                    </label>
+
+                    <label>
+                        <input type="checkbox" name="priority"
+                               value="Reduce Farming Risks">
+                        Reduce Farming Risks
+                    </label>
+
+                    <label>
+                        <input type="checkbox" name="priority"
+                               value="Adapt to Climate Change">
+                        Adapt to Climate Change
+                    </label>
+
+                </div>
+
+            </section>
+
+
+            <!-- SUBMIT -->
+
+            <button type="submit" id="submitBtn">
+                Submit Farmer Information
+            </button>
+
+            <p id="message"></p>
+
+            <pre id="result"></pre>
+            <!-- CROP RECOMMENDATION -->
+
+<!-- ================================= -->
+<!-- AI CROP RECOMMENDATION DASHBOARD -->
+<!-- ================================= -->
+
+<section id="recommendationSection" style="display: none;">
+
+    <div class="card">
+
+        <h2>🌱 FarmShift AI Recommendation Dashboard</h2>
+
+        <p id="recommendationStatus">
+            Analyzing farm conditions...
+        </p>
+
+        <!-- RECOMMENDED CROP -->
+
+        <div class="crop-result">
+
+            <h3>🤖 AI Recommended Crop</h3>
+
+            <h1 id="recommendedCrop">--</h1>
+
+            <p>
+                Recommended based on soil and weather conditions.
+            </p>
+
+        </div>
+
+    </div>
+
+
+    <!-- SOIL ANALYSIS -->
+
+    <div class="card">
+
+        <h2>🧪 Soil Analysis</h2>
+
+        <div class="dashboard-grid">
+
+            <div>
+                <h3>Nitrogen</h3>
+                <p id="dashNitrogen">--</p>
+            </div>
+
+            <div>
+                <h3>Phosphorus</h3>
+                <p id="dashPhosphorus">--</p>
+            </div>
+
+            <div>
+                <h3>Potassium</h3>
+                <p id="dashPotassium">--</p>
+            </div>
+
+            <div>
+                <h3>Soil pH</h3>
+                <p id="dashPH">--</p>
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- WEATHER ANALYSIS -->
+
+    <div class="card">
+
+        <h2>🌦️ Weather Analysis</h2>
+
+        <div class="dashboard-grid">
+
+            <div>
+                <h3>Temperature</h3>
+                <p id="dashTemperature">--</p>
+            </div>
+
+            <div>
+                <h3>Humidity</h3>
+                <p id="dashHumidity">--</p>
+            </div>
+
+            <div>
+                <h3>Rainfall</h3>
+                <p id="dashRainfall">--</p>
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- FARMING GUIDANCE -->
+
+    <div class="card">
+
+        <h2>💧 Farming Information</h2>
+
+        <p>
+            <strong>Land Area:</strong>
+            <span id="dashLandArea">--</span> Acres
+        </p>
+
+        <p>
+            <strong>Soil Type:</strong>
+            <span id="dashSoilType">--</span>
+        </p>
+
+        <p>
+            <strong>Water Availability:</strong>
+            <span id="dashWater">--</span>
+        </p>
+
+        <p>
+            <strong>Farming Season:</strong>
+            <span id="dashSeason">--</span>
+        </p>
+
+    </div>
+
+
+    <!-- AI EXPLANATION -->
+
+    <div class="card">
+
+        <h2>🤖 AI Analysis Summary</h2>
+
+        <p id="aiExplanation">
+            Your farm information is being analyzed.
+        </p>
+
+    </div>
+    <!-- CROP ROTATION ANALYSIS -->
+
+<div class="card" id="rotationSection">
+
+    <h2>🔄 Crop Rotation Analysis</h2>
+
+    <p id="rotationStatus">
+        Analyzing previous cropping history...
+    </p>
+
+    <h3>Current Crop</h3>
+
+    <p id="rotationCurrentCrop">--</p>
+
+    <h3>Previous Crops</h3>
+
+    <p id="rotationPreviousCrops">--</p>
+
+    <h3>AI Rotation Insights</h3>
+
+    <ul id="rotationInsights"></ul>
+
+</div>
+
+</section>
+
+        </form>
+
+    </main>
+
+
+    <footer>
+        <p>FarmShift AI © 2026 | Smart Agriculture</p>
+    </footer>
+
+     <script src="{{ url_for('static', filename='script.js') }}"></script>
+
+</body>
+</html>
